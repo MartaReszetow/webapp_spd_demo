@@ -23,16 +23,22 @@ public class StudentFormServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // dla przypadku gdy bedziemy modyfikowali dane w formularzu - pobieramy id Osoby do zmodyfikowania
+        String modifiedIdString = req.getParameter("modifiedStudentId");
+        Long modifiedId = null;
+        if(modifiedIdString!= null && !modifiedIdString.isEmpty()){
+            modifiedId = Long.parseLong(modifiedIdString);
+        }
+
         Student student = new Student();
+        //pobiera id do modyfikacji
+        student.setId(modifiedId);
 
         student.setFirstName(req.getParameter("first_name_field"));
         student.setLastName(req.getParameter("last_name_field"));
         student.setBirthDate(LocalDate.parse(req.getParameter("date_of_birth_field")));
-        student.setGraduated(req.getParameter("graduated_field")!=null); //on
+        student.setGraduated(req.getParameter("graduated_field") != null); // on
         student.setHomeDistance(Double.parseDouble(req.getParameter("distance_field")));
-
         studentEntityDao.saveOrUpdate(student);
-        //na sam koniec przenosi nas do listy studentów
-        resp.sendRedirect(req.getContextPath()+ "/students");
-    }
-}
+        resp.sendRedirect(req.getContextPath() + "/students");
+    }}
