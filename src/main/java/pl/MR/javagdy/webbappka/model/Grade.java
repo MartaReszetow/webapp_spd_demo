@@ -20,7 +20,7 @@ public class Grade {
     private Long id;
 
     private double value;
-    private GradesSubject subject;
+    private GradeSubject subject;
 
     @CreationTimestamp
     private LocalDate timeCreated;
